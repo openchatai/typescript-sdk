@@ -13,9 +13,13 @@
     "@swc/core": "^1.2.74",
     "@swc/jest": "^0.1.4",
     "@swc/register": "^0.1.7",
+    "@types/form-data": "^2.5.0",
     "@types/jest": "^26.0.24",
     "jest": "^27.0.6",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
   }
 }
