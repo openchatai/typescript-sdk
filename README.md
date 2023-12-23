@@ -1,4 +1,4 @@
-# Copilot connect api
+# Copilot SDK
 
 - SWC
 - Jest
