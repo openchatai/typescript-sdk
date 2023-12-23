@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=14"
   },
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "start": "tsc && node dist/index.js",
     "start:watch": "nodemon --ext ts --exec npm start",

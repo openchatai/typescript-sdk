@@ -1,32 +1,49 @@
 import axios from 'axios';
 import { Copilot } from "../models";
 
-const apiUrl = '/copilots';
+export class CopilotApi {
+  private apiUrl: string;
 
-export const getCopilot = async (id: string): Promise<Copilot> => {
-  const response = await axios.get(`${apiUrl}/${id}`);
-  return new Copilot(response.data);
-};
+  constructor(baseUrl: string) {
+    this.apiUrl = baseUrl + '/copilots';
+  }
 
-export const getAllCopilots = async (): Promise<Copilot[]> => {
-  const response = await axios.get(apiUrl);
-  return response.data.map((d: Copilot) => new Copilot(d));
-};
+  public async getCopilot(id: string): Promise<Copilot> {
+    const response = await axios.get(`${this.apiUrl}/${id}`);
+    return new Copilot(response.data);
+  }
 
-export const updateCopilot = async (id: string, copilot: Copilot): Promise<void> => {
-  await axios.put(`${apiUrl}/${id}`, copilot);
-};
+  public async getAllCopilots(): Promise<Copilot[]> {
+    const response = await axios.get(this.apiUrl);
+    return response.data.map((d: Copilot) => new Copilot(d));
+  }
 
-export const createCopilot = async (copilot: Copilot): Promise<Copilot> => {
-  const response = await axios.post(apiUrl, copilot);
-  return new Copilot(response.data);
-};
+  public async updateCopilot(id: string, copilot: Copilot): Promise<void> {
+    await axios.put(`${this.apiUrl}/${id}`, copilot);
+  }
 
-export const deleteCopilot = async (id: string): Promise<void> => {
-  await axios.delete(`${apiUrl}/${id}`);
-};
+  public async createCopilot(copilot: Copilot): Promise<Copilot> {
+    const response = await axios.post(this.apiUrl, copilot);
+    return new Copilot(response.data);
+  }
 
-export const validateCopilot = async (id: string): Promise<string> => {
-  const response = await axios.get(`${apiUrl}/${id}/validate`);
-  return response.data;
-};
+  public async deleteCopilot(id: string): Promise<void> {
+    await axios.delete(`${this.apiUrl}/${id}`);
+  }
+
+  public async validateCopilot(id: string): Promise<string> {
+    const response = await axios.get(`${this.apiUrl}/${id}/validate`);
+    return response.data;
+  }
+}
+
+// Example usage:
+// const baseUrl = 'YOUR_BASE_URL';
+// const copilotService = new CopilotService(baseUrl);
+
+// // Now you can call the methods on the copilotService instance
+// const copilot = await copilotService.getCopilot('123');
+// const allCopilots = await copilotService.getAllCopilots();
+// await copilotService.updateCopilot('456', { /* updated copilot properties */ });
+// const newCopilot = await copilotService.createCopilot({ /* new copilot properties */ });
+// await copilotService.deleteCopilot('7
