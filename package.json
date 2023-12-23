@@ -5,6 +5,8 @@
     "node": ">=14"
   },
   "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start": "tsc && node dist/index.js",
     "start:watch": "nodemon --ext ts --exec npm start",
