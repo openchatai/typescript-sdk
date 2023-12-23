@@ -1,8 +1,10 @@
 {
-  "private": true,
+  "private": false,
+  "name": "copilot-connect",
   "engines": {
     "node": ">=14"
   },
+  "version": "0.0.1",
   "scripts": {
     "start": "tsc && node dist/index.js",
     "start:watch": "nodemon --ext ts --exec npm start",

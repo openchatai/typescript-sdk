@@ -1,0 +1,13 @@
+# Ignore development files
+__tests/
+node_modules/
+src/
+
+# Ignore configuration files
+tsconfig.json
+jest.config.js
+pnpm-lock.yaml
+package-lock.json
+
+# Ignore specific files
+*.md
