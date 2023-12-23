@@ -1,10 +1,10 @@
 {
   "private": false,
-  "name": "copilot-connect",
+  "name": "opencopilot-sdk",
   "engines": {
     "node": ">=14"
   },
-  "version": "1.0.2",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
