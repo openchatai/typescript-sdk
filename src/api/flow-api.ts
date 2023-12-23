@@ -45,20 +45,4 @@ export class FlowApi {
     const url = `${this.backendBase}/flows/${flowId}`;
     return this.makeRequest<Flow>(url, 'get');
   }
-
-  public async getFlowVariables(flowId: string): Promise<any[]> {
-    const url = `${this.backendBase}/flows/${flowId}/variables`;
-    return this.makeRequest<any[]>(url, 'get');
-  }
 }
-
-// // Example usage:
-// const backendBase = 'YOUR_BACKEND_BASE_URL';
-// const flowService = new FlowService(backendBase);
-
-// // Now you can call the methods on the flowService instance
-// const flows = await flowService.getAllFlowsByBotId('bot123');
-// const newFlow = await flowService.createNewFlow('bot123', { /* flow properties */ });
-// const syncedFlow = await flowService.syncFlow('flow456', { /* updated flow properties */ });
-// const singleFlow = await flowService.getFlow('flow789');
-// const flowVariables = await flowService.getFlowVariables('flow789');

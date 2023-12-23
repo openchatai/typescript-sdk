@@ -60,7 +60,7 @@ export class ChatApi {
   }
 
   async sendChatMessage(sessionId: string, botToken: string): Promise<void> {
-    const url = `http://localhost:5000/backend/chat/send`;
+    const url = `${this.backendBase}/chat/send`;
     const headers = {
       'X-Session-Id': sessionId,
       'X-Bot-Token': botToken,
@@ -75,7 +75,7 @@ export class ChatApi {
   }
 
   async initChat(sessionId: string, botToken: string): Promise<ChatSession> {
-    const url = `http://localhost:8888/backend/chat/init?session_id=${sessionId}`;
+    const url = `${this.backendBase}/chat/init?session_id=${sessionId}`;
     const headers = {
       'X-Session-Id': sessionId,
       'X-Bot-Token': botToken,
