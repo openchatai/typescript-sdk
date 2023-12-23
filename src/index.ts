@@ -2,7 +2,7 @@ import { CopilotApi, ChatApi, FlowApi, ActionApi } from "./api";
 
 
 
-class OpenCopilotConnect {
+export class OpenCopilotSdk {
   public copilot: CopilotApi;
   public chat: ChatApi;
   public flow: FlowApi;
@@ -15,5 +15,3 @@ class OpenCopilotConnect {
     this.action = new ActionApi(baseUrl);
   }
 }
-
-export default OpenCopilotConnect;
