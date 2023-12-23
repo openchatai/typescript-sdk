@@ -1,6 +1,5 @@
 // api/swaggerApi.ts
 import axios, { AxiosResponse } from 'axios';
-import FormData from 'form-data';
 import { SwaggerApiResponse } from '../models/swagger-model';
 
 export class SwaggerApi {
@@ -10,21 +9,20 @@ export class SwaggerApi {
     this.backendBase = backendBase;
   }
 
-  async addSwagger(id: string, file: string): Promise<SwaggerApiResponse> {
-    const url = `${this.backendBase}/swagger_api/u/${id}`;
-    const formData = new FormData();
-    formData.append('file', file);
-
+  async addSwagger(url: string, formData: FormData): Promise<SwaggerApiResponse> {
     try {
       const response: AxiosResponse<SwaggerApiResponse> = await axios.post(url, formData, {
-        headers: { ...formData.getHeaders() },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to add Swagger: ${error.message}`);
     }
-  }
+  };
+
 }
 
 // Usage example:

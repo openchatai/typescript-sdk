@@ -1,20 +1,8 @@
-export class Copilot {
-
-    id: string;
-    name: string;
-    token: string;
-    website: string;
-    status: 'draft' | 'published';
-    promptMessage: string;
-    enhancedPrivacy: boolean;
-    smartSync: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    deletedAt: Date | null;
-    swaggerUrl: string;
-    isPremadeDemoTemplate: boolean;
-
-    constructor(data: Copilot) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Copilot = void 0;
+class Copilot {
+    constructor(data) {
         this.id = data.id;
         this.name = data.name;
         this.token = data.token;
@@ -29,5 +17,5 @@ export class Copilot {
         this.swaggerUrl = data.swaggerUrl;
         this.isPremadeDemoTemplate = data.isPremadeDemoTemplate;
     }
-
 }
+exports.Copilot = Copilot;

@@ -14,7 +14,7 @@ export class ChatApi {
     try {
       const response: AxiosResponse<void> = await axios.get(url);
       // Process the response as needed
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to list conversations: ${error.message}`);
     }
   }
@@ -24,7 +24,7 @@ export class ChatApi {
     try {
       const response: AxiosResponse<void> = await axios.get(url);
       // Process the response as needed
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to get unique sessions: ${error.message}`);
     }
   }
@@ -34,7 +34,7 @@ export class ChatApi {
     try {
       const response: AxiosResponse<void> = await axios.get(url);
       // Process the response as needed
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to block session: ${error.message}`);
     }
   }
@@ -44,7 +44,7 @@ export class ChatApi {
     try {
       const response: AxiosResponse<ChatMessage[]> = await axios.get(url);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to get messages per conversation: ${error.message}`);
     }
   }
@@ -54,7 +54,7 @@ export class ChatApi {
     try {
       const response: AxiosResponse<void> = await axios.get(url);
       // Process the response as needed
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to delete conversation: ${error.message}`);
     }
   }
@@ -69,7 +69,7 @@ export class ChatApi {
     try {
       const response: AxiosResponse<void> = await axios.post(url, {}, { headers });
       // Process the response as needed
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to send chat message: ${error.message}`);
     }
   }
@@ -84,7 +84,7 @@ export class ChatApi {
     try {
       const response: AxiosResponse<ChatSession> = await axios.get(url, { headers });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to initialize chat: ${error.message}`);
     }
   }
