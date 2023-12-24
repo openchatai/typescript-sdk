@@ -18,11 +18,11 @@ export class CopilotApi {
     return response.data.map((d: Copilot) => new Copilot(d));
   }
 
-  public async updateCopilot(id: string, copilot: Copilot): Promise<void> {
+  public async updateCopilot(id: string, copilot: Pick<Copilot, 'promptMessage'|'status'|'website'|'name'>): Promise<void> {
     await axios.put(`${this.apiUrl}/${id}`, copilot);
   }
 
-  public async createCopilot(copilot: Copilot): Promise<Copilot> {
+  public async createCopilot(copilot: Pick<Copilot, 'name'>): Promise<Copilot> {
     const response = await axios.post(this.apiUrl, copilot);
     return new Copilot(response.data);
   }

@@ -1,6 +1,6 @@
 // api/ChatApi.ts
 import axios, { AxiosResponse } from 'axios';
-import { ChatMessage, ChatSession } from '../models/chat-message';
+import { ChatMessage, ChatSession, SendChatRequest, UniqueSession, SendChatResponse } from '../models/chat-message';
 
 export class ChatApi {
   private backendBase: string;
@@ -9,21 +9,21 @@ export class ChatApi {
     this.backendBase = backendBase;
   }
 
-  async listConversations(sessionId: string): Promise<void> {
+  async listConversations(sessionId: string) {
     const url = `${this.backendBase}/chat/sessions/${sessionId}/chats/`;
     try {
-      const response: AxiosResponse<void> = await axios.get(url);
-      // Process the response as needed
+      const response = await axios.get<ChatMessage[]>(url);
+      return response.data
     } catch (error: any) {
       throw new Error(`Failed to list conversations: ${error.message}`);
     }
   }
 
-  async getUniqueSessions(botId: string): Promise<void> {
+  async getUniqueSessions(botId: string): Promise<UniqueSession[]> {
     const url = `${this.backendBase}/chat/b/${botId}/chat_sessions`;
     try {
-      const response: AxiosResponse<void> = await axios.get(url);
-      // Process the response as needed
+      const response = await  axios.get<UniqueSession[]>(url);
+      return response.data
     } catch (error: any) {
       throw new Error(`Failed to get unique sessions: ${error.message}`);
     }
@@ -59,7 +59,7 @@ export class ChatApi {
     }
   }
 
-  async sendChatMessage(sessionId: string, botToken: string): Promise<void> {
+  async sendChatMessage(sessionId: string, botToken: string, body: SendChatRequest): Promise<SendChatResponse> {
     const url = `${this.backendBase}/chat/send`;
     const headers = {
       'X-Session-Id': sessionId,
@@ -67,8 +67,8 @@ export class ChatApi {
     };
 
     try {
-      const response: AxiosResponse<void> = await axios.post(url, {}, { headers });
-      // Process the response as needed
+      const response = await axios.post<SendChatResponse>(url, body, { headers });
+      return response.data
     } catch (error: any) {
       throw new Error(`Failed to send chat message: ${error.message}`);
     }

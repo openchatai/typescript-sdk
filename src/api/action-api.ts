@@ -32,9 +32,9 @@ export class ActionApi {
     return this.makeRequest<GetActionResponse>(url, 'get');
   }
 
-  public async addAction(request: AddActionRequest): Promise<AddActionResponse> {
+  public async addAction(request: AddActionRequest): Promise<string[]> {
     const url = `${this.backendBase}/actions/bot/${request.bot_id}`;
-    return this.makeRequest<AddActionResponse>(url, 'post', request);
+    return this.makeRequest<string[]>(url, 'post', request);
   }
 }
 
