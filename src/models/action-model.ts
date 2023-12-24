@@ -48,8 +48,3 @@ export interface AddActionRequest {
     status: string;
     request_type: string;
 }
-
-export interface AddActionResponse {
-    success: string;
-}
-
