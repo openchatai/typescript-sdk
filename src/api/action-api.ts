@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { GetActionsRequest, GetActionsResponse, GetActionRequest, GetActionResponse, AddActionRequest } from '../models';
+import { GetActionsRequest, GetActionsResponse, GetActionRequest, GetActionResponse, AddActionRequest, Action } from '../models';
 
 export class ActionApi {
   private backendBase: string;
@@ -22,9 +22,9 @@ export class ActionApi {
     }
   }
 
-  public async getActions(request: GetActionsRequest): Promise<GetActionsResponse> {
+  public async getActions(request: GetActionsRequest): Promise<Action[]> {
     const url = `${this.backendBase}/actions/bot/${request.chatbot_id}`;
-    return this.makeRequest<GetActionsResponse>(url, 'get');
+    return this.makeRequest<Action[]>(url, 'get');
   }
 
   public async getAction(request: GetActionRequest): Promise<GetActionResponse> {
@@ -33,8 +33,9 @@ export class ActionApi {
   }
 
   public async addAction(request: AddActionRequest): Promise<string[]> {
-    const url = `${this.backendBase}/actions/bot/${request.bot_id}`;
-    return this.makeRequest<string[]>(url, 'post', request);
+    const {bot_id, ...rest} = request;
+    const url = `${this.backendBase}/actions/bot/${bot_id}`;
+    return this.makeRequest<string[]>(url, 'post', rest);
   }
 }
 

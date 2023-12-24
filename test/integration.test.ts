@@ -7,7 +7,6 @@ const assert = chai.assert;
 import { Copilot } from '../src/models';
 
 const sdk = new OpenCopilotSdk('http://127.0.0.1:8888/backend');
-
 describe('Integration Tests', function () {
     let jarvis: Copilot;
 

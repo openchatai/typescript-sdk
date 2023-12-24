@@ -4,6 +4,7 @@ import { OpenCopilotSdk } from '../src';
 import { Copilot } from '../src/models';
 
 describe('Copilot Integration Tests', function () {
+  this.timeout(20000);
   let sdk: OpenCopilotSdk;
   let createdCopilot: Copilot;
 
