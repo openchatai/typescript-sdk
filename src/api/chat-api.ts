@@ -1,18 +1,20 @@
 // api/ChatApi.ts
 import axios, { AxiosResponse } from 'axios';
 import { ChatMessage, ChatSession, SendChatRequest, UniqueSession, SendChatResponse } from '../models/chat-message';
+import { ApiRequester } from './api-requester';
 
-export class ChatApi {
+export class ChatApi extends ApiRequester {
   private backendBase: string;
 
   constructor(backendBase: string) {
+    super(backendBase);
     this.backendBase = backendBase;
   }
 
   async listConversations(sessionId: string) {
     const url = `${this.backendBase}/chat/sessions/${sessionId}/chats/`;
     try {
-      const response = await axios.get<ChatMessage[]>(url);
+      const response = await this.i.get<ChatMessage[]>(url);
       return response.data
     } catch (error: any) {
       throw new Error(`Failed to list conversations: ${error.message}`);
@@ -22,7 +24,7 @@ export class ChatApi {
   async getUniqueSessions(botId: string): Promise<UniqueSession[]> {
     const url = `${this.backendBase}/chat/b/${botId}/chat_sessions`;
     try {
-      const response = await  axios.get<UniqueSession[]>(url);
+      const response = await this.i.get<UniqueSession[]>(url);
       return response.data
     } catch (error: any) {
       throw new Error(`Failed to get unique sessions: ${error.message}`);
@@ -32,7 +34,7 @@ export class ChatApi {
   async blockSession(sessionId: string): Promise<void> {
     const url = `${this.backendBase}/chat/sessions/${sessionId}/chats/`;
     try {
-      const response: AxiosResponse<void> = await axios.get(url);
+      const response: AxiosResponse<void> = await this.i.get(url);
       // Process the response as needed
     } catch (error: any) {
       throw new Error(`Failed to block session: ${error.message}`);
@@ -42,7 +44,7 @@ export class ChatApi {
   async getMessagesPerConversation(sessionId: string): Promise<ChatMessage[]> {
     const url = `${this.backendBase}/chat/sessions/${sessionId}/chats`;
     try {
-      const response: AxiosResponse<ChatMessage[]> = await axios.get(url);
+      const response: AxiosResponse<ChatMessage[]> = await this.i.get(url);
       return response.data;
     } catch (error: any) {
       throw new Error(`Failed to get messages per conversation: ${error.message}`);
@@ -52,7 +54,7 @@ export class ChatApi {
   async deleteConversation(sessionId: string): Promise<void> {
     const url = `${this.backendBase}/chat/sessions/${sessionId}/chats`;
     try {
-      const response: AxiosResponse<void> = await axios.get(url);
+      const response: AxiosResponse<void> = await this.i.get(url);
       // Process the response as needed
     } catch (error: any) {
       throw new Error(`Failed to delete conversation: ${error.message}`);
@@ -82,7 +84,7 @@ export class ChatApi {
     };
 
     try {
-      const response: AxiosResponse<ChatSession> = await axios.get(url, { headers });
+      const response: AxiosResponse<ChatSession> = await this.i.get(url, { headers });
       return response.data;
     } catch (error: any) {
       throw new Error(`Failed to initialize chat: ${error.message}`);
