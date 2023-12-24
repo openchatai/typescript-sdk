@@ -1,20 +1,24 @@
 import { expect } from 'chai';
 import { describe, it, before } from 'mocha';
 import { OpenCopilotSdk } from '../src';
+import * as assert from 'assert';
+import { Copilot } from '../src/models';
 
-const sdk = new OpenCopilotSdk("http://localhost:8888");
+const sdk = new OpenCopilotSdk("http://127.0.0.1:8888/backend");
 
 describe('Integration Tests', function () {
-  let jarvis: any; // Declare jarvis outside so that it's accessible across tests
+  let jarvis: Copilot; // Declare jarvis outside so that it's accessible across tests
 
+  this.timeout(5000);
   before(async function () {
     try {
       // Test: Create Copilot
       jarvis = await sdk.copilot.createCopilot({
         name: "Jarvis"
-      });
-      console.log("Test: Create Copilot - Passed", jarvis);
-
+      }); 
+      
+      assert.strictEqual(jarvis.name, "Jarvis", "Create Copilot failed");
+  
       // Test: Update Copilot
       await sdk.copilot.updateCopilot(jarvis.id, {
         name: "Jarvis 2.0",
@@ -22,16 +26,20 @@ describe('Integration Tests', function () {
         status: 'published',
         website: 'http://jarvisworld.com'
       });
-      console.log("Test: Update Copilot - Passed");
-
+      
+      console.log("Jarvis updated successfully")
       // Test: Get Copilot
       jarvis = await sdk.copilot.getCopilot(jarvis.id);
-      console.log("Test: Get Copilot - Passed", jarvis);
+      
+      console.log("Jarvis fetched successfully", jarvis)
+      assert.strictEqual(jarvis.name, "Jarvis 2.0", "Update Copilot failed");
+  
     } catch (error: any) {
       console.error("Error in the Jarvis saga:", error.message);
       // You might want to handle the error or skip further tests if one fails.
+      throw error;
     }
-  });
+  });  
 
   it('should pass integration tests for Copilot and Chat', async function () {
     try {
