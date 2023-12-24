@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { GetActionsRequest, GetActionsResponse, GetActionRequest, GetActionResponse, AddActionRequest, AddActionResponse } from '../models';
+import { GetActionsRequest, GetActionsResponse, GetActionRequest, GetActionResponse, AddActionRequest } from '../models';
 
 export class ActionApi {
   private backendBase: string;

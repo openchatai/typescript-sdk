@@ -1,43 +1,68 @@
-import { OpenCopilotSdk } from ".";
+import { expect } from 'chai';
+import { describe, it, before } from 'mocha';
+import { OpenCopilotSdk } from '../src';
+import * as assert from 'assert';
+import { Copilot } from '../src/models';
 
-const sdk = new OpenCopilotSdk("http://localhost:8888")
+const sdk = new OpenCopilotSdk("http://127.0.0.1:8888/backend");
 
-async function testCopilot() {
+describe('Integration Tests', function () {
+  let jarvis: Copilot; // Declare jarvis outside so that it's accessible across tests
+
+  this.timeout(5000);
+  before(async function () {
     try {
-        // Test: Create Copilot
-        let jarvis = await sdk.copilot.createCopilot({
-            name: "Jarvis"
-        });
-        console.log("Test: Create Copilot - Passed", jarvis);
-
-        // Test: Update Copilot
-        await sdk.copilot.updateCopilot(jarvis.id, {
-            name: "Jarvis 2.0",
-            promptMessage: 'Hello, I am your friendly AI assistant!',
-            status: 'published',
-            website: 'http://jarvisworld.com'
-        });
-        console.log("Test: Update Copilot - Passed");
-
-        // Test: Get Copilot
-        jarvis = await sdk.copilot.getCopilot(jarvis.id);
-        console.log("Test: Get Copilot - Passed", jarvis);
-
-        // Test: Get All Copilots
-        const copilots = await sdk.copilot.getAllCopilots();
-        console.log("Test: Get All Copilots - Passed", copilots);
-
-
-
-        await testChat({ sessionId: "ABC123", botId: jarvis.id, botToken: jarvis.token })
-        await testActions({bot_id: jarvis.id})
-        // Test: Delete Copilot
-        const result = await sdk.copilot.deleteCopilot(jarvis.id);
-        console.log("Test: Delete Copilot - Passed", result);
+      // Test: Create Copilot
+      jarvis = await sdk.copilot.createCopilot({
+        name: "Jarvis"
+      }); 
+      
+      assert.strictEqual(jarvis.name, "Jarvis", "Create Copilot failed");
+  
+      // Test: Update Copilot
+      await sdk.copilot.updateCopilot(jarvis.id, {
+        name: "Jarvis 2.0",
+        promptMessage: 'Hello, I am your friendly AI assistant!',
+        status: 'published',
+        website: 'http://jarvisworld.com'
+      });
+      
+      console.log("Jarvis updated successfully")
+      // Test: Get Copilot
+      jarvis = (await sdk.copilot.getCopilot(jarvis.id)).chatbot;
+      
+      console.log("Jarvis fetched successfully", jarvis)
+      assert.strictEqual(jarvis.name, "Jarvis 2.0", "Update Copilot failed");
+  
     } catch (error: any) {
-        console.error("Error in the Jarvis saga:", error.message);
+      console.error("Error in the Jarvis saga:", error.message);
+      // You might want to handle the error or skip further tests if one fails.
+      throw error;
     }
-}
+  });  
+
+  it('should pass integration tests for Copilot and Chat', async function () {
+    try {
+      // Test: Get All Copilots
+      const copilots = await sdk.copilot.getAllCopilots();
+      console.log("Test: Get All Copilots - Passed", copilots);
+
+      // Test: Chat Integration
+      await testChat({ sessionId: "ABC123", botId: jarvis.id, botToken: jarvis.token });
+
+      // Test: Action Integration
+      await testActions({ bot_id: jarvis.id });
+
+      // Test: Delete Copilot
+      const result = await sdk.copilot.deleteCopilot(jarvis.id);
+      console.log("Test: Delete Copilot - Passed", result);
+    } catch (error: any) {
+      console.error("Error in the integration tests:", error.message);
+      // You might want to handle the error or mark the test as failed if one fails.
+      expect.fail(error.message);
+    }
+  });
+});
 
 async function testChat({ sessionId, botId, botToken }: { sessionId: string, botId: string, botToken: string }) {
     try {
@@ -141,6 +166,3 @@ async function testActions({ bot_id }: { bot_id: string }) {
 
     console.log(`Got actions for ${bot_id}: ${actions.success}`)
 }
-
-// Let the Jarvis show begin!
-testCopilot();

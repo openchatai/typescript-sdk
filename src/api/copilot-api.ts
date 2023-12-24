@@ -5,12 +5,13 @@ export class CopilotApi {
   private apiUrl: string;
 
   constructor(baseUrl: string) {
-    this.apiUrl = baseUrl + '/copilots';
+    this.apiUrl = `${baseUrl}/copilot`;
   }
 
-  public async getCopilot(id: string): Promise<Copilot> {
+  // @todo: this return type is incorrect, needs to be fixed
+  public async getCopilot(id: string): Promise<{chatbot: Copilot}> {
     const response = await axios.get(`${this.apiUrl}/${id}`);
-    return new Copilot(response.data);
+    return response.data;
   }
 
   public async getAllCopilots(): Promise<Copilot[]> {
@@ -18,13 +19,41 @@ export class CopilotApi {
     return response.data.map((d: Copilot) => new Copilot(d));
   }
 
-  public async updateCopilot(id: string, copilot: Pick<Copilot, 'promptMessage'|'status'|'website'|'name'>): Promise<void> {
-    await axios.put(`${this.apiUrl}/${id}`, copilot);
+  // @todo: This request should be put but it's post!
+  public async updateCopilot(id: string, copilot: Pick<Copilot, 'promptMessage' | 'status' | 'website' | 'name'>): Promise<void> {
+    try {
+      const response = await axios.post(`${this.apiUrl}/${id}`, copilot, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      return response.data
+    } catch (error) {
+      // Handle error
+      console.error('Error updating copilot:', error);
+      throw error;
+    }
   }
 
+  // @todo: This should not be form data
   public async createCopilot(copilot: Pick<Copilot, 'name'>): Promise<Copilot> {
-    const response = await axios.post(this.apiUrl, copilot);
-    return new Copilot(response.data);
+    const formData = new FormData();
+    formData.append('name', copilot.name);
+
+    try {
+      const response = await axios.post<Copilot>(`${this.apiUrl}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return new Copilot(response.data);
+    } catch (error) {
+      // Handle error
+      console.error('Error creating copilot:', error);
+      throw error;
+    }
   }
 
   public async deleteCopilot(id: string): Promise<void> {
@@ -36,14 +65,3 @@ export class CopilotApi {
     return response.data;
   }
 }
-
-// Example usage:
-// const baseUrl = 'YOUR_BASE_URL';
-// const copilotService = new CopilotService(baseUrl);
-
-// // Now you can call the methods on the copilotService instance
-// const copilot = await copilotService.getCopilot('123');
-// const allCopilots = await copilotService.getAllCopilots();
-// await copilotService.updateCopilot('456', { /* updated copilot properties */ });
-// const newCopilot = await copilotService.createCopilot({ /* new copilot properties */ });
-// await copilotService.deleteCopilot('7
