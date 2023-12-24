@@ -8,7 +8,7 @@ export class CopilotApi {
     this.apiUrl = `${baseUrl}/copilot`;
   }
 
-  public async getCopilot(id: string): Promise<Copilot> {
+  public async getCopilot(id: string): Promise<{chatbot: Copilot}> {
     const response = await axios.get(`${this.apiUrl}/${id}`);
     return response.data;
   }

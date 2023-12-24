@@ -29,7 +29,7 @@ describe('Integration Tests', function () {
       
       console.log("Jarvis updated successfully")
       // Test: Get Copilot
-      jarvis = await sdk.copilot.getCopilot(jarvis.id);
+      jarvis = (await sdk.copilot.getCopilot(jarvis.id)).chatbot;
       
       console.log("Jarvis fetched successfully", jarvis)
       assert.strictEqual(jarvis.name, "Jarvis 2.0", "Update Copilot failed");
