@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import { describe, it, before } from 'mocha';
 import { OpenCopilotSdk } from '../src';
-import { Action, Copilot } from '../src/models';
+import { Action, Copilot, Flow } from '../src/models';
 
 describe('Copilot Integration Tests', function () {
     this.timeout(20000);
     let sdk: OpenCopilotSdk;
     let createdCopilot: Copilot;
     let action_ids: string[];
+    let actions: Action[];
 
     before(function () {
         sdk = new OpenCopilotSdk("http://127.0.0.1:8888/backend");
@@ -55,6 +56,31 @@ describe('Copilot Integration Tests', function () {
             expect(action).to.have.keys('api_endpoint', 'bot_id', 'name', 'operation_id', 'status', 'payload', 'request_type', 'updated_at', 'created_at', 'deleted_at', 'description', 'id');
         });
     })
+
+
+    it('should create a flow', async function() {
+        const flow: Flow = {
+            blocks: [{
+                actions: [],
+                name: "Block 1",
+                next_on_fail: null,
+                next_on_success: null,
+                order: 1
+            }],
+            description: "",
+            name: "Example flow"
+        };
+        
+        const _flow = await sdk.flow.createNewFlow(createdCopilot.id, flow)
+        expect(_flow).to.have.key('id')
+    })
+
+
+    it('should fetch all flows for the bot by bot id', async function() {
+        const flows = await sdk.flow.getAllFlowsByBotId(createdCopilot.id)
+        expect(flows).to.be.an('array')
+    })
+
 
     after(async function () {
         try {
