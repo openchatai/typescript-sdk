@@ -17,17 +17,16 @@ To create a new copilot instance, follow these steps:
 
 2. **Create a Copilot**:
    ```javascript
-   let jarvis = await sdk.copilot.createCopilot({
+   let copilot = await sdk.copilot.createCopilot({
        name: 'My Copilot',
    });
-   assert.strictEqual(jarvis.name, 'Jarvis', 'Create Copilot failed');
    ```
 
 3. **Update the Copilot**:
    After creation, you can update the copilot's details such as name, prompt message, status, and website.
    ```javascript
-   await sdk.copilot.updateCopilot(jarvis.id, {
-       name: 'Jarvis 2.0',
+   await sdk.copilot.updateCopilot(copilot.id, {
+       name: 'copilot 2.0',
        promptMessage: 'Hello, I am your friendly Copilot!',
        status: 'published',
        website: 'http://jarvisworld.com',
@@ -54,12 +53,12 @@ To interact with a copilot through chat:
 
 - **Send a Chat Message**:
   ```javascript
-  const chatMessageResult = await sdk.chat.sendChatMessage("abc123", jarvis.token, {
+  const chatMessageResult = await sdk.chat.sendChatMessage("abc123", copilot.token, {
       from: 'user',
       content: 'Greet me in less than 20 characters',
-      id: jarvis.id,
+      id: copilot.id,
       headers: {
-          'X-Copilot': jarvis.id,
+          'X-Copilot': copilot.id,
       },
       session_id: "abc123",
   });
@@ -70,7 +69,7 @@ After testing or when a copilot is no longer needed:
 
 - **Delete a Copilot**:
   ```javascript
-  const result = await sdk.copilot.deleteCopilot(jarvis.id);
+  const result = await sdk.copilot.deleteCopilot(copilot.id);
   console.log('Test: Delete Copilot - Passed', result);
   ```
 
@@ -81,7 +80,7 @@ After testing or when a copilot is no longer needed:
 1. **Create an Action**:
    ```javascript
    const action_ids = await sdk.action.addAction({
-       bot_id: createdCopilot.id,
+       bot_id: copilot.id,
        api_endpoint: "http://127.0.0.1:8888",
        description: "This is a test action",
        name: "Test Action",
@@ -95,7 +94,7 @@ After testing or when a copilot is no longer needed:
 2. **List Actions for the Copilot**:
    ```javascript
    const actions = await sdk.action.getActions({
-       chatbot_id: createdCopilot.id
+       chatbot_id: copilot.id
    });
    ```
    
@@ -117,9 +116,9 @@ To begin a chat session with a copilot, follow these steps:
   const chatMessageResult = await sdk.chat.sendChatMessage("abc123", jarvis.token, {
       from: 'user',
       content: 'Greet me in less than 20 characters',
-      id: jarvis.id,
+      id: copilot.id,
       headers: {
-          'X-Copilot': jarvis.id,
+          'X-Copilot': copilot.id,
       },
       session_id: "abc123",
   });
