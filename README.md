@@ -15,7 +15,7 @@ npm run test:watch
 
 
 ## Usage
-- [Copilot APIs](test/integration.test.ts) 
+### [Copilot APIs](test/integration.test.ts) 
 
 To create a new copilot instance, follow these steps:
 
@@ -83,8 +83,33 @@ After testing or when a copilot is no longer needed:
   console.log('Test: Delete Copilot - Passed', result);
   ```
 
+-----
 
 
-- [Action](test/action.test.ts) 
+### [Actions APIs](test/action.test.ts) 
+1. **Create an Action**:
+   ```javascript
+   const action_ids = await sdk.action.addAction({
+       bot_id: createdCopilot.id,
+       api_endpoint: "http://127.0.0.1:8888",
+       description: "This is a test action",
+       name: "Test Action",
+       payload: {},
+       request_type: "GET",
+       status: "active"
+   });
+   // Validate action creation
+   ```
+
+2. **List Actions for the Copilot**:
+   ```javascript
+   const actions = await sdk.action.getActions({
+       chatbot_id: createdCopilot.id
+   });
+   ```
+   
+----
+
+
 - [Knowledgebase](test/knowledgebase.test.ts) 
 - [Chat](test/initChat.test.ts)
