@@ -1,48 +1,31 @@
-import axios, { AxiosResponse } from 'axios';
 import { Flow } from '../models/flow-model';
+import { ApiRequester } from './api-requester';
 
-export class FlowApi {
+export class FlowApi extends ApiRequester {
   private backendBase: string;
 
   constructor(baseUrl: string) {
+    super(baseUrl);
     this.backendBase = baseUrl;
   }
 
-  private async makeRequest<T>(url: string, method: 'get' | 'post' | 'put', data?: any): Promise<T> {
-    try {
-      const response: AxiosResponse<T> = await axios({
-        method,
-        url,
-        data,
-        headers: {
-          Accept: 'application/json',
-        },
-      });
-
-      return response.data;
-    } catch (error: any) {
-      console.error(`Error making ${method.toUpperCase()} request:`, error);
-      throw error;
-    }
-  }
-
-  public async getAllFlowsByBotId(botId: string): Promise<Flow[]> {
+  public async getAllFlowsByBotId(botId: string) {
     const url = `${this.backendBase}/flows/bot/${botId}`;
-    return this.makeRequest<Flow[]>(url, 'get');
+    return this.i.get<Flow[]>(url);
   }
 
-  public async createNewFlow(botId: string, flow: Flow): Promise<Flow> {
+  public async createNewFlow(botId: string, flow: Flow) {
     const url = `${this.backendBase}/flows/bot/${botId}`;
-    return this.makeRequest<Flow>(url, 'post', flow);
+    return this.i.post<Flow>(url, flow);
   }
 
-  public async syncFlow(flowId: string, flow: Flow): Promise<Flow> {
+  public async syncFlow(flowId: string, flow: Flow) {
     const url = `${this.backendBase}/flows/${flowId}`;
-    return this.makeRequest<Flow>(url, 'put', flow);
+    return this.i.put<Flow>(url, flow);
   }
 
-  public async getFlow(flowId: string): Promise<Flow> {
+  public async getFlow(flowId: string) {
     const url = `${this.backendBase}/flows/${flowId}`;
-    return this.makeRequest<Flow>(url, 'get');
+    return this.i.get<Flow>(url);
   }
 }

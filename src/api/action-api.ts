@@ -1,41 +1,28 @@
-import axios, { AxiosResponse } from 'axios';
-import { GetActionsRequest, GetActionsResponse, GetActionRequest, GetActionResponse, AddActionRequest, Action } from '../models';
+import { GetActionsRequest, GetActionRequest, GetActionResponse, AddActionRequest, Action } from '../models';
+import { ApiRequester } from './api-requester';
 
-export class ActionApi {
+export class ActionApi extends ApiRequester {
   private backendBase: string;
 
   constructor(baseUrl: string) {
+    super(baseUrl);
     this.backendBase = baseUrl;
   }
 
-  private async makeRequest<T>(url: string, method: 'get' | 'post', data?: any): Promise<T> {
-    try {
-      const response: AxiosResponse<T> =
-        method === 'get'
-          ? await axios.get(url)
-          : await axios.post(url, data);
-
-      return response.data;
-    } catch (error: any) {
-      console.error(`Error making ${method.toUpperCase()} request:`, error);
-      throw error;
-    }
-  }
-
-  public async getActions(request: GetActionsRequest): Promise<Action[]> {
+  public async getActions(request: GetActionsRequest) {
     const url = `${this.backendBase}/actions/bot/${request.chatbot_id}`;
-    return this.makeRequest<Action[]>(url, 'get');
+    return (await this.i.get<Action[]>(url)).data;
   }
 
-  public async getAction(request: GetActionRequest): Promise<GetActionResponse> {
+  public async getAction(request: GetActionRequest) {
     const url = `${this.backendBase}/actions/p/${request.action_id}`;
-    return this.makeRequest<GetActionResponse>(url, 'get');
+    return (await this.i.get<GetActionResponse>(url)).data;
   }
 
-  public async addAction(request: AddActionRequest): Promise<string[]> {
-    const {bot_id, ...rest} = request;
+  public async addAction(request: AddActionRequest) {
+    const { bot_id, ...rest } = request;
     const url = `${this.backendBase}/actions/bot/${bot_id}`;
-    return this.makeRequest<string[]>(url, 'post', rest);
+    return (await this.i.post<string[]>(url, rest)).data;
   }
 }
 
