@@ -4,9 +4,13 @@
   "engines": {
     "node": ">=14"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openchatai/copilot-sdk"
+  },
   "scripts": {
     "start": "tsc && node dist/index.js",
     "start:watch": "nodemon --ext ts --exec npm start",
