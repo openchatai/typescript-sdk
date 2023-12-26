@@ -72,7 +72,6 @@ describe('Copilot Integration Tests', function () {
         };
         
         const _flow = await sdk.flow.createNewFlow(createdCopilot.id, flow)
-        console.log({_flow})
         expect(_flow).to.have.keys('blocks', 'description', 'flow_id', 'last_saved_at', 'name');
     })
 
