@@ -110,6 +110,30 @@ After testing or when a copilot is no longer needed:
    
 ----
 
+### [Chat APIs](test/initChat.test.ts)
+
+### Initializing Chat
+To begin a chat session with a copilot, follow these steps:
+
+1. **Initiate Chat Session**:
+   After creating a copilot, you can start a chat session using its token.
+   ```javascript
+   const result = await sdk.chat.initChat("abc1234", createdCopilot.token);
+   ```
+
+2. **Send a Chat Message**:
+  ```javascript
+  const chatMessageResult = await sdk.chat.sendChatMessage("abc123", jarvis.token, {
+      from: 'user',
+      content: 'Greet me in less than 20 characters',
+      id: jarvis.id,
+      headers: {
+          'X-Copilot': jarvis.id,
+      },
+      session_id: "abc123",
+  });
+  ```
+
+----
 
 - [Knowledgebase](test/knowledgebase.test.ts) 
-- [Chat](test/initChat.test.ts)
