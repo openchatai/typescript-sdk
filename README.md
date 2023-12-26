@@ -1,4 +1,4 @@
-# Copilot SDK
+# OpenCopilot Typescript SDK
 
 - SWC
 - Jest
