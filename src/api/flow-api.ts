@@ -11,12 +11,16 @@ export class FlowApi extends ApiRequester {
 
   public async getAllFlowsByBotId(botId: string) {
     const url = `${this.backendBase}/flows/bot/${botId}`;
-    return this.i.get<Flow[]>(url);
+    const result = await this.i.get<Flow[]>(url);
+
+    return result.data
   }
 
   public async createNewFlow(botId: string, flow: Flow) {
     const url = `${this.backendBase}/flows/bot/${botId}`;
-    return this.i.post<Flow>(url, flow);
+    const result = await this.i.post<Flow>(url, flow);
+
+    return result.data
   }
 
   public async syncFlow(flowId: string, flow: Flow) {
