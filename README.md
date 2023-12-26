@@ -1,18 +1,8 @@
-# OpenCopilot Typescript SDK
-
-- SWC
-- Jest
-- Nodemon
-- Prettier
+## Installation
 
 ```
-npm run start
-npm run start:watch
-npm run test
-npm run test:watch
+npm i opencopilot-sdk
 ```
-
-
 
 ## Usage
 ### [Copilot APIs](test/integration.test.ts) 
@@ -27,7 +17,7 @@ To create a new copilot instance, follow these steps:
 2. **Create a Copilot**:
    ```javascript
    let jarvis = await sdk.copilot.createCopilot({
-       name: 'Jarvis',
+       name: 'My Copilot',
    });
    assert.strictEqual(jarvis.name, 'Jarvis', 'Create Copilot failed');
    ```
@@ -37,7 +27,7 @@ To create a new copilot instance, follow these steps:
    ```javascript
    await sdk.copilot.updateCopilot(jarvis.id, {
        name: 'Jarvis 2.0',
-       promptMessage: 'Hello, I am your friendly AI assistant!',
+       promptMessage: 'Hello, I am your friendly Copilot!',
        status: 'published',
        website: 'http://jarvisworld.com',
    });
