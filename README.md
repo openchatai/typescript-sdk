@@ -12,6 +12,8 @@ To create a new copilot instance, follow these steps:
 1. **Initialize the SDK**:
    ```javascript
    import {OpenCopilotSdk} from "opencopilot-sdk";
+
+   # Replace 127.0.0.1 with your own OpenCopilot instance URL
    const sdk = new OpenCopilotSdk('http://127.0.0.1:8888/backend');
    ```
 
