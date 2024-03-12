@@ -107,7 +107,7 @@ After testing or when a copilot is no longer needed:
 ### Initializing Chat
 To begin a chat session with a copilot, follow these steps:
 
-1. **Initiate Chat Session**:
+1. **Initiate Chat Session (optional: to get some metadata)**:
    After creating a copilot, you can start a chat session using its token.
    ```javascript
    const result = await sdk.chat.initChat("abc1234", createdCopilot.token);
@@ -122,7 +122,7 @@ To begin a chat session with a copilot, follow these steps:
       headers: {
           'X-Copilot': copilot.id,
       },
-      session_id: "abc123",
+      session_id: "abc123", 
   });
   ```
 
